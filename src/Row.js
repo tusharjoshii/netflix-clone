@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import axios from './axios';
+import axios from 'axios';
 import "./Row.css";
 
-function Row({ title, fetchUrl, isLargeRow = false }) {
+function Row({ title, fetchURL, isLargeRow = false }) {
     const [movies, setMovies] = useState([]);
 
     const base_url = "https://image.tmdb.org/t/p/original/"
-
+    
     useEffect(() => {
         async function fetchData() {
-            const request = await axios.get(fetchUrl);
+            const request = await axios.get(`https://api.themoviedb.org/3/${fetchURL}`);            
+            
             setMovies(request.data.results);
             return request;
         }
+        // console.log(fetchURL);
         fetchData();
-    }, [fetchUrl]);
 
-    console.log(movies);
+    }, [fetchURL]);
+
+    // console.log(movies);
 
     return (
         <div className="row">

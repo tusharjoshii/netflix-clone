@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import "./Banner.css"; 
-import axios from './axios';
+import axios from 'axios';
 import requests from './Requests';
 
 function Banner() {
     
     const[movie,setMovie] = useState([]);
-
     useEffect(() => {
         async function fetchData() {
-            const request = await axios.get(requests.fetchNetflixOriginals);
+            const request = await axios.get(`https://api.themoviedb.org/3/${requests.fetchNetflixOriginals}`);
+            // console.log(https://api.themoviedb.org/3/${request.fetchNetflixOriginals})
             setMovie(
                 request.data.results[
                     Math.floor(Math.random()*request.data.results.length-1)
@@ -19,14 +19,15 @@ function Banner() {
         }
         fetchData();
     },[])
-
-    // function truncate ( string , n ) {
-    //     return (string?.length > n ? string.substr( 0 , n-1 ) + '...' : string);
-    // }
+    
+    function truncate ( string , n ) {
+        
+        return (string?.length > n ? string.substr( 0 , n-1 ) + '...' : string);
+    }
     
     return (
     <header className = "banner" style={{
-        // backgroundSize: "cover",
+        backgroundSize: "cover",
         backgroundImage: `url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}")`
     }}>
     
@@ -36,7 +37,7 @@ function Banner() {
         </h1>
         <div>
             <h1 className = 'banner_description'>
-                {/* { truncate("hello", 150)} */}
+                { truncate(movie?.overview, 150)}
             </h1>
         </div>
         <div className = 'banner_buttons'>
